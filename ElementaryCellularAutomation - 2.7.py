@@ -1,6 +1,6 @@
 # Elementary Cellular Automation
 # Brian Anders
-# April 12, 2014
+# April 14, 2014
 
 #!/usr/bin/python
 
