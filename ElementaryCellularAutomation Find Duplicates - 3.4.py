@@ -2,28 +2,23 @@
 # Brian Anders
 # April 12, 2014
 
-## This program takes any rule in Elementary Cellular Automation and
-## creates an html file with a table showing the generations created by
-## that rule.
-
-# try these rules: 30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250 
+## This program takes all rule in Elementary Cellular Automation and
+## finds the rules that generate duplicate output. Then it prints the
+## arrays of duplicate rules.
 
 #!/usr/bin/python
 
 circumference = 100
 generations = 200
 code = {}
+codesToTry = [30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250]
+codeObject = {}
+duplicates = {}
 
-def init(r):
-    global circumference
-    circumference = int(input('Circumference? '))
-    global generations
-    generations = int(input('Generations? '))
-    
-    
+def init(c):
     for i in range(8):
         code["{0:b}".format(i)] = "0"
-    rule(r)
+    rule(c)
     string = ""
     for i in range(circumference):
         if(i == circumference//2):
@@ -43,14 +38,12 @@ def rule(rule):
         code["{0:b}".format(i)] = rule[7-i]
     
 
-def main():
-    rule = int(input("What Rule? "))
-    file = open(str(rule) + ".html" ,'w')
-    generation = init(rule)
-    file.write("<html><head><style>table{border-spacing:0;}td{width:10px;height:10px;background:whitesmoke;}td.black{background:black}</style></head><body><table>");
+def main(r):
+    generation = init(r)
+    theCode = ""
     
     for i in range(generations):
-        file.write("<tr>" + generation.replace('0', '<td></td>').replace('1','<td class="black"></td>') + "</tr>")
+        theCode = theCode + generation
         
         nextGeneration = ""
         
@@ -58,7 +51,26 @@ def main():
             nextGeneration = nextGeneration + threeToOne(generation[(j-1) % len(generation)] + generation[j] + generation[(j+1) % len(generation)])
         
         generation = nextGeneration
-    file.write("</table></body></html>")
-    file.close()
+    theCode = theCode + generation
 
-main()
+    global codeObject
+    try:
+      codeObject[theCode]
+    except KeyError:
+      codeObject[theCode] = [r]
+    else:
+      codeObject[theCode].append(r)
+    
+
+
+
+        
+for r in range(256):
+    main(r)
+
+
+print("these are the sets of duplicate rules")
+for c in codeObject:
+    if(len(codeObject[c]) > 1):
+        print(codeObject[c])
+

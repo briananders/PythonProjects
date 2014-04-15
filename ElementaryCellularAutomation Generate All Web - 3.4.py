@@ -2,9 +2,9 @@
 # Brian Anders
 # April 12, 2014
 
-## This program takes any rule in Elementary Cellular Automation and
+## This program takes all 256 rules in Elementary Cellular Automation and
 ## creates an html file with a table showing the generations created by
-## that rule.
+## each rule.
 
 # try these rules: 30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250 
 
@@ -14,16 +14,11 @@ circumference = 100
 generations = 200
 code = {}
 
-def init(r):
-    global circumference
-    circumference = int(input('Circumference? '))
-    global generations
-    generations = int(input('Generations? '))
-    
+def init(c):
     
     for i in range(8):
         code["{0:b}".format(i)] = "0"
-    rule(r)
+    rule(c)
     string = ""
     for i in range(circumference):
         if(i == circumference//2):
@@ -43,10 +38,9 @@ def rule(rule):
         code["{0:b}".format(i)] = rule[7-i]
     
 
-def main():
-    rule = int(input("What Rule? "))
-    file = open(str(rule) + ".html" ,'w')
-    generation = init(rule)
+def main(c):
+    file = open(str(c) + ".html" ,'w')
+    generation = init(c)
     file.write("<html><head><style>table{border-spacing:0;}td{width:10px;height:10px;background:whitesmoke;}td.black{background:black}</style></head><body><table>");
     
     for i in range(generations):
@@ -61,4 +55,6 @@ def main():
     file.write("</table></body></html>")
     file.close()
 
-main()
+        
+for c in range(256):
+    main(c)
