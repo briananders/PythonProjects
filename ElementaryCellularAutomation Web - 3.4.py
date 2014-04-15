@@ -6,8 +6,8 @@
 
 #!/usr/bin/python
 
-circumference = 100
-generations = 100
+circumference = 200
+generations = 200
 code = {}
 codesToTry = [30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250]
 
